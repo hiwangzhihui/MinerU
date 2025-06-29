@@ -1,0 +1,111 @@
+{
+  "name": "MinerU Development Environment",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-python.isort",
+        "ms-python.pylint",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.vscode-markdown",
+        "ms-vscode.vscode-docker",
+        "ms-vscode.vscode-git",
+        "ms-vscode.vscode-github",
+        "ms-vscode.vscode-pull-request-github",
+        "ms-vscode.vscode-remote-extensionpack",
+        "ms-vscode.vscode-remote-containers",
+        "ms-vscode.vscode-remote-ssh",
+        "ms-vscode.vscode-remote-wsl",
+        "ms-vscode.vscode-remote-ssh-edit",
+        "ms-vscode.vscode-remote-ssh-explorer",
+        "ms-vscode.vscode-remote-ssh-server",
+        "ms-vscode.vscode-remote-ssh-ui",
+        "ms-vscode.vscode-remote-ssh-extensionpack",
+        "ms-vscode.vscode-remote-ssh-edit",
+        "ms-vscode.vscode-remote-ssh-explorer",
+        "ms-vscode.vscode-remote-ssh-server",
+        "ms-vscode.vscode-remote-ssh-ui",
+        "ms-vscode.vscode-remote-ssh-extensionpack"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.linting.enabled": true,
+        "python.linting.pylintEnabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.formatting.provider": "black",
+        "python.formatting.blackArgs": ["--line-length", "88"],
+        "python.sortImports.args": ["--profile", "black"],
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+        "python.testing.pytestArgs": [
+          "tests"
+        ],
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": true
+        },
+        "files.exclude": {
+          "**/__pycache__": true,
+          "**/*.pyc": true,
+          "**/.pytest_cache": true,
+          "**/.coverage": true,
+          "**/htmlcov": true,
+          "**/.mypy_cache": true
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": {
+            "path": "/bin/bash",
+            "args": ["-l"]
+          }
+        }
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [30000, 8888, 6006],
+  "portsAttributes": {
+    "30000": {
+      "label": "MinerU SGLang Server",
+      "onAutoForward": "notify"
+    },
+    "8888": {
+      "label": "Jupyter Notebook",
+      "onAutoForward": "notify"
+    },
+    "6006": {
+      "label": "TensorBoard",
+      "onAutoForward": "notify"
+    }
+  },
+  "postStartCommand": "echo 'MinerU development environment is ready!'",
+  "remoteUser": "vscode",
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/models,target=/home/vscode/.cache/mineru,type=bind,consistency=cached"
+  ],
+  "runArgs": [
+    "--shm-size=2g",
+    "--network=host"
+  ],
+  "environmentVariables": {
+    "MINERU_MODEL_SOURCE": "local",
+    "PYTHONPATH": "${containerWorkspaceFolder}",
+    "CUDA_VISIBLE_DEVICES": "0",
+    "TORCH_HOME": "/home/vscode/.cache/torch",
+    "HF_HOME": "/home/vscode/.cache/huggingface",
+    "TRANSFORMERS_CACHE": "/home/vscode/.cache/huggingface/transformers",
+    "HF_DATASETS_CACHE": "/home/vscode/.cache/huggingface/datasets"
+  }
+} 
